@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How are U today?</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Reenie+Beanie&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap"
+        rel="stylesheet">
+    
+    <!-- 🚀 감정 이미지 프리로드 - 딜레이 방지 -->
+    <link rel="preload" as="image" href="image/Happiness.png">
+    <link rel="preload" as="image" href="image/Anticipation.png">
+    <link rel="preload" as="image" href="image/Love.png">
+    <link rel="preload" as="image" href="image/Achieve.png">
+    <link rel="preload" as="image" href="image/Anxiety.png">
+    <link rel="preload" as="image" href="image/Sadness.png">
+    <link rel="preload" as="image" href="image/Angry.png">
+    <link rel="preload" as="image" href="image/Exhaustion.png">
+</head>
+
+<body>
+    <!-- 스크롤 안내 -->
+    <div class="scroll-hint">
+        <div class="scroll-hint-text">스크롤해서 좌우로 이동</div>
+        <div class="scroll-hint-buttons">
+            <div class="scroll-arrow left" id="scrollLeft">←</div>
+            <div class="scroll-arrow right" id="scrollRight">→</div>
+        </div>
+    </div>
+
+    <div class="scroll-container" id="scrollContainer">
+        <!-- Section 1: How are U today? -->
+        <section class="section section-1">
+            <div class="content-wrapper">
+                <h1 class="main-title">
+                    <img class="main-title-img" src="image/How are U today_.png" alt="" aria-hidden="true">
+                </h1>
+
+                <div class="shapes-container">
+                    <svg class="path-line" viewBox="0 0 2000 1200" preserveAspectRatio="none">
+                        <path d="M 60 360 C 260 520, 520 520, 760 420 S 1160 200, 1480 420 S 1740 760, 1920 640"
+                            stroke="#dcdcdc" stroke-width="2" stroke-dasharray="10 14" fill="none" />
+                    </svg>
+
+                    <!-- hero shapes pulled from assets -->
+                    <img class="hero-shape" src="image/Exhaustion.png" alt="orange arc"
+                        style="--size:200px; top:-10%; left:-6%;">
+                    <img class="hero-shape" src="image/Happiness.png" alt="yellow flower"
+                        style="--size:190px; top:8%; left:-2%;">
+                    <img class="hero-shape" src="image/Anxiety.png" alt="purple star"
+                        style="--size:150px; top:18%; left:18%;">
+                    <img class="hero-shape" src="image/Happiness.png" alt="yellow flower"
+                        style="--size:180px; top:32%; left:10%;">
+                    <img class="hero-shape" src="image/Love.png" alt="pink heart"
+                        style="--size:160px; top:48%; left:12%;">
+                    <img class="hero-shape" src="image/Anticipation.png" alt="teal m"
+                        style="--size:190px; top:64%; left:10%;">
+                    <img class="hero-shape" src="image/Sadness.png" alt="blue drop"
+                        style="--size:200px; top:82%; left:2%;">
+                    <img class="hero-shape" src="image/Angry.png" alt="red spiky"
+                        style="--size:160px; top:72%; left:26%;">
+
+                    <img class="hero-shape" src="image/Sadness.png" alt="blue drop"
+                        style="--size:200px; top:16%; left:44%;">
+                    <img class="hero-shape" src="image/Anxiety.png" alt="purple star"
+                        style="--size:170px; top:48%; left:50%;">
+                    <img class="hero-shape" src="image/Achieve.png" alt="blue arrow"
+                        style="--size:170px; top:54%; left:60%;">
+                    <img class="hero-shape" src="image/Achieve.png" alt="blue arrow"
+                        style="--size:170px; top:62%; left:66%;">
+                    <img class="hero-shape" src="image/Anticipation.png" alt="teal m"
+                        style="--size:190px; top:72%; left:74%;">
+
+                    <img class="hero-shape" src="image/Angry.png" alt="red spiky"
+                        style="--size:160px; top:26%; left:74%;">
+                    <img class="hero-shape" src="image/Anxiety.png" alt="purple star"
+                        style="--size:160px; top:10%; left:84%;">
+                    <img class="hero-shape" src="image/Happiness.png" alt="yellow flower"
+                        style="--size:150px; top:38%; left:90%;">
+                    <img class="hero-shape" src="image/Love.png" alt="pink heart"
+                        style="--size:160px; top:56%; left:86%;">
+                    <img class="hero-shape" src="image/Anticipation.png" alt="teal m"
+                        style="--size:180px; top:74%; left:86%;">
+
+                    <!-- shapes sitting on the path -->
+                    <img class="hero-shape on-path" src="image/Sadness.png" alt="blue drop"
+                        style="--size:150px; top:34%; left:34%;">
+                    <img class="hero-shape on-path" src="image/Achieve.png" alt="blue arrow"
+                        style="--size:150px; top:46%; left:58%;">
+                    <img class="hero-shape on-path" src="image/Anticipation.png" alt="teal m"
+                        style="--size:150px; top:58%; left:70%;">
+                    <img class="hero-shape on-path" src="image/Happiness.png" alt="yellow flower"
+                        style="--size:140px; top:30%; left:78%;">
+                    <img class="hero-shape on-path" src="image/Love.png" alt="pink heart"
+                        style="--size:140px; top:62%; left:32%;">
+                </div>
+
+                <div class="lets-text">
+                    <img class="lets-title-img" src="image/Lets.png" alt="" aria-hidden="true">
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Pick your one -->
+        <section class="section section-2">
+            <div class="content-wrapper">
+                <h2 class="pick-title">
+                    <img class="pick-title-img" src="image/Pick.png" alt="" aria-hidden="true">
+                </h2>
+
+                <div class="here-pointer">
+                    <span class="here-text">here!</span>
+                </div>
+
+                <div class="emotions-grid">
+                    <div class="emotion-card">
+                        <div class="emotion-shape"
+                            style="--normal:url('image/Happiness.png'); --hover:url('image/Happiness_hover.png');"
+                            aria-hidden="true"></div>
+                        <p class="emotion-label">HAPPINESS</p>
+                    </div>
+
+                    <div class="emotion-card">
+                        <div class="emotion-shape"
+                            style="--normal:url('image/Anticipation.png'); --hover:url('image/Anticipation_hover.png');"
+                            aria-hidden="true"></div>
+                        <p class="emotion-label">ANTICIPATION</p>
+                    </div>
+
+                    <div class="emotion-card">
+                        <div class="emotion-shape"
+                            style="--normal:url('image/Love.png'); --hover:url('image/Love_hover.png');"
+                            aria-hidden="true"></div>
+                        <p class="emotion-label">LOVE</p>
+                    </div>
+
+                    <div class="emotion-card">
+                        <div class="emotion-shape"
+                            style="--normal:url('image/Achieve.png'); --hover:url('image/Achieve_hover.png');"
+                            aria-hidden="true"></div>
+                        <p class="emotion-label">ACHIEVE</p>
+                    </div>
+
+                    <div class="emotion-card">
+                        <div class="emotion-shape"
+                            style="--normal:url('image/Anxiety.png'); --hover:url('image/Anxiety_hover.png');"
+                            aria-hidden="true"></div>
+                        <p class="emotion-label">ANXIETY</p>
+                    </div>
+
+                    <div class="emotion-card">
+                        <div class="emotion-shape"
+                            style="--normal:url('image/Sadness.png'); --hover:url('image/Sadness_hover.png');"
+                            aria-hidden="true"></div>
+                        <p class="emotion-label">SADNESS</p>
+                    </div>
+
+                    <div class="emotion-card">
+                        <div class="emotion-shape"
+                            style="--normal:url('image/Angry.png'); --hover:url('image/Angry_hover.png');"
+                            aria-hidden="true"></div>
+                        <p class="emotion-label">ANGRY</p>
+                    </div>
+
+                    <div class="emotion-card">
+                        <div class="emotion-shape"
+                            style="--normal:url('image/Exhaustion.png'); --hover:url('image/Exhaustion_hover.png');"
+                            aria-hidden="true"></div>
+                        <p class="emotion-label">EXHAUSTION</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 공통 감정 Detail Screen -->
+    <div class="detail-screen" id="emotionScreen" data-emotion="" aria-hidden="true">
+        <div class="detail-content">
+            <button class="detail-nav prev" id="detailPrev" aria-label="이전"></button>
+            <button class="detail-nav next" id="detailNext" aria-label="다음"></button>
+            <div class="detail-card" id="detailCard">
+                <div class="detail-header"></div>
+                <div class="detail-notes">
+                    <textarea id="emotionNote" placeholder=""></textarea>
+                </div>
+                <div class="detail-date" id="detailDate">1208.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Drop target section -->
+    <section class="section drop-section" id="dropSection">
+        <button class="home-btn" id="homeBtn" aria-label="Pick 섹션으로 이동"></button>
+        <div class="drop-content">
+            <svg class="drop-overlay" id="dropOverlay" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true"></svg>
+            <svg class="drop-path" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M -200 40 C 120 120, 420 60, 720 150 S 1200 260, 1500 220 S 1340 440, 1100 420 S 760 480, 520 520 S 180 560, -100 760" />
+            </svg>
+            <div class="put-here" id="dropZone">
+                <div class="put-here-label">PUT</div>
+                <div class="put-here-circle"></div>
+                <div class="put-here-label">HERE</div>
+            </div>
+            <div class="drop-stack" id="dropStack"></div>
+        </div>
+    </section>
+
+    <!-- 토큰 상세보기 모달 -->
+    <div class="token-modal" id="tokenModal" aria-hidden="true">
+        <div class="token-modal-backdrop" id="tokenModalBackdrop"></div>
+        <div class="token-modal-content" id="tokenModalContent">
+            <button class="token-modal-close" id="tokenModalClose" aria-label="닫기">&times;</button>
+            <div class="token-modal-icon" id="tokenModalIcon"></div>
+            <div class="token-modal-emotion" id="tokenModalEmotion"></div>
+            <div class="token-modal-date" id="tokenModalDate"></div>
+            <div class="token-modal-note-label">메모</div>
+            <div class="token-modal-note" id="tokenModalNote"></div>
+            <button class="token-modal-delete" id="tokenModalDelete">삭제</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

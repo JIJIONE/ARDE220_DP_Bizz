@@ -1,0 +1,950 @@
+:root {
+    --bg: #0f0f0f;
+    --ink: #f7f7f7;
+    --muted: #c7c7c7;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    overflow: hidden;
+}
+
+.scroll-container {
+    display: flex;
+    width: 100vw;
+    /* 섹션 2개 기준 */
+    height: 100vh;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    /* 중요: JS 휠 이벤트와 충돌 방지를 위해 scroll-behavior 제거 */
+    /* scroll-behavior: smooth; */
+
+    scroll-snap-type: x mandatory;
+    /* 멈추면 섹션에 딱 붙게 함 */
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+    cursor: grab;
+}
+
+/* 스크롤바 디자인 */
+.scroll-container::-webkit-scrollbar {
+    height: 10px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+    background: #3a3a3a;
+    border-radius: 10px;
+}
+
+.section {
+    flex: 0 0 100vw;
+    /* 줄어들지 않고 정확히 화면 너비 차지 */
+    height: 100vh;
+    position: relative;
+    padding: clamp(8px, 2vw, 24px);
+    scroll-snap-align: start;
+    /* 스크롤 스냅 포인트 */
+    scroll-snap-stop: always;
+}
+
+.section-1 {
+    background: var(--bg);
+}
+
+.section-2 {
+    background: #111111;
+}
+
+.content-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.main-title {
+    font-size: clamp(56px, 7.6vw, 120px);
+    font-weight: 800;
+    letter-spacing: 1px;
+    position: absolute;
+    top: 8%;
+    left: 8%;
+    text-transform: uppercase;
+    z-index: 3;
+}
+
+.main-title-img {
+    width: clamp(420px, 110vw, 1200px);
+    height: auto;
+    display: block;
+}
+
+.lets-text {
+    position: absolute;
+    bottom: 8%;
+    right: 6%;
+    z-index: 3;
+}
+
+.lets-title-img {
+    width: clamp(420px, 50vw, 900px);
+    height: auto;
+    display: block;
+}
+
+.pick-title {
+    font-size: clamp(44px, 7vw, 96px);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 6%;
+}
+
+.pick-title-img {
+    width: clamp(420px, 52vw, 900px);
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.pick-title .m-mark,
+.lets-text .m-mark {
+    margin-left: 0.08em;
+}
+
+.m-mark {
+    display: inline-block;
+    position: relative;
+    width: 1.8em;
+    height: 0.82em;
+    top: 0.08em;
+    background: currentColor;
+    clip-path: polygon(0% 70%,
+            10% 40%,
+            24% 72%,
+            40% 28%,
+            56% 72%,
+            72% 32%,
+            88% 64%,
+            100% 64%,
+            88% 80%,
+            72% 44%,
+            56% 90%,
+            40% 44%,
+            24% 90%,
+            10% 70%);
+}
+
+.detail-screen {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.detail-screen.is-active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.detail-content {
+    max-width: 1280px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 110px;
+}
+
+.detail-card {
+    position: absolute;
+    inset: 0;
+    background: center / 85% auto no-repeat;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 170px 12px 150px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+    transform: translateX(120%);
+    transition: transform 0.6s ease, background-image 0.3s ease;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 감정별 배경 이미지 */
+.detail-card[data-emotion="happiness"] { background-image: url('image/Happiness_Union.png'); }
+.detail-card[data-emotion="anticipation"] { background-image: url('image/Anticipation_Union.png'); }
+.detail-card[data-emotion="love"] { background-image: url('image/Love_Union.png'); }
+.detail-card[data-emotion="achieve"] { background-image: url('image/Achieve_Union.png'); }
+.detail-card[data-emotion="anxiety"] { background-image: url('image/Anxiety_Union.png'); }
+.detail-card[data-emotion="sadness"] { background-image: url('image/Sadness_Union.png'); }
+.detail-card[data-emotion="angry"] { background-image: url('image/Angry_Union.png'); }
+.detail-card[data-emotion="exhaustion"] { background-image: url('image/Exhaustion_Union.png'); }
+
+.detail-screen.is-active .detail-card {
+    transform: translateX(0);
+}
+
+.detail-top-notch,
+.detail-bottom-notch {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 80px;
+    background: #0f0f0f;
+    clip-path: polygon(0 0, 50% 75%, 100% 0, 100% 100%, 0 100%);
+}
+
+.detail-top-notch {
+    top: -20px;
+    transform: translateX(-50%) rotate(180deg);
+}
+
+.detail-bottom-notch {
+    bottom: -30px;
+}
+
+.detail-header {
+    text-align: center;
+    color: #f87bb5;
+    margin-bottom: 32px;
+}
+
+.detail-wavy {
+    width: 220px;
+    height: 12px;
+    margin: 0 auto 8px auto;
+    background: repeating-linear-gradient(90deg, transparent 0 8px, currentColor 8px 16px);
+}
+
+.detail-title {
+    font-size: clamp(48px, 6vw, 92px);
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.detail-title img {
+    width: clamp(220px, 32vw, 420px);
+    height: auto;
+}
+
+.detail-lines {
+    width: 70%;
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    margin: 0 auto 48px auto;
+}
+
+.detail-lines div {
+    height: 1px;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.25);
+}
+
+.detail-notes {
+    position: relative;
+    width: 60%;
+    max-width: 640px;
+    height: 200px;
+    margin: 0 auto 32px auto;
+    background:
+        repeating-linear-gradient(#0f0f0f00, #0f0f0f00 30px, rgba(0, 0, 0, 0.25) 31px, rgba(0, 0, 0, 0.25) 32px);
+    overflow: hidden;
+}
+
+.detail-notes textarea {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 8px 14px;
+    border: none;
+    background: transparent;
+    color: #3d3d3d;
+    font-family: 'Nanum Pen Script', cursive;
+    font-size: 24px;
+    line-height: 32px;
+    resize: none;
+    outline: none;
+}
+
+.detail-date {
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 800;
+    font-family: 'Pretendard', 'Space Grotesk', sans-serif;
+}
+
+/* 감정별 날짜 색상 */
+.detail-card[data-emotion="happiness"] .detail-date { color: #f87bb5; }
+.detail-card[data-emotion="anticipation"] .detail-date { color: #00B4A0; }
+.detail-card[data-emotion="love"] .detail-date { color: #FF6B9D; }
+.detail-card[data-emotion="achieve"] .detail-date { color: #4A90D9; }
+.detail-card[data-emotion="anxiety"] .detail-date { color: #9B6DD7; }
+.detail-card[data-emotion="sadness"] .detail-date { color: #5B9BD5; }
+.detail-card[data-emotion="angry"] .detail-date { color: #E74C3C; }
+.detail-card[data-emotion="exhaustion"] .detail-date { color: #F39C12; }
+
+.detail-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: center/60% no-repeat rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    color: #fff;
+    font-size: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    z-index: 2;
+}
+
+.detail-nav:hover {
+    transform: translateY(-50%) scale(1.05);
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.detail-nav.prev {
+    left: 46px;
+    background-image: url('image/left_arrow.png');
+}
+
+.detail-nav.next {
+    right: 46px;
+    background-image: url('image/check.png');
+}
+
+.detail-nav.prev:hover {
+    background-image: url('image/left_arrow_hover.png');
+}
+
+.detail-nav.next:hover {
+    background-image: url('image/check_hover.png');
+}
+
+.drop-section {
+    background: #0f0f0f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.drop-content {
+    width: 100%;
+    max-width: 1400px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.drop-path {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.drop-path path {
+    stroke: rgba(255, 255, 255, 0.8);
+    stroke-width: 2;
+    stroke-dasharray: 8 10;
+    fill: none;
+    pointer-events: none;
+}
+
+.drop-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.home-btn {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 50%;
+    background: url('image/home.png') center/60% no-repeat rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+    display: block;
+    z-index: 5;
+}
+
+.home-btn:hover {
+    background: url('image/home.png') center/60% no-repeat rgba(255, 255, 255, 0.16);
+    transform: scale(1.05);
+}
+
+.put-here {
+    position: relative;
+    width: 260px;
+    height: 260px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 50%;
+    border: 2px dashed rgba(255, 255, 255, 0.4);
+    display: grid;
+    place-items: center;
+    gap: 6px;
+    position: absolute;
+    top: 24%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease;
+}
+
+.put-here.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.put-here-label {
+    font-size: 26px;
+    letter-spacing: 2px;
+}
+
+.put-here-circle {
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+.drop-stack {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.token {
+    position: fixed;
+    width: 140px;
+    height: 140px;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: transform 0.2s ease;
+    font-family: 'Pretendard', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    z-index: 50;
+}
+
+.token .token-date {
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+.token.stacked {
+    position: absolute;
+    transform: none;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 감정별 토큰 스타일 */
+.token[data-emotion="happiness"] { background-image: url('image/Happiness.png'); color: #CFD500; }
+.token[data-emotion="anticipation"] { background-image: url('image/Anticipation.png'); color: #00B4A0; }
+.token[data-emotion="love"] { background-image: url('image/Love.png'); color: #FF6B9D; }
+.token[data-emotion="achieve"] { background-image: url('image/Achieve.png'); color: #4A90D9; }
+.token[data-emotion="anxiety"] { background-image: url('image/Anxiety.png'); color: #9B6DD7; }
+.token[data-emotion="sadness"] { background-image: url('image/Sadness.png'); color: #5B9BD5; }
+.token[data-emotion="angry"] { background-image: url('image/Angry.png'); color: #E74C3C; }
+.token[data-emotion="exhaustion"] { background-image: url('image/Exhaustion.png'); color: #F39C12; }
+
+/* 클릭 가능한 토큰 */
+.token.stacked {
+    cursor: pointer;
+    pointer-events: all;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.token.stacked:hover {
+    transform: scale(1.1);
+    filter: brightness(1.1);
+}
+
+/* 토큰 상세보기 모달 */
+.token-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.token-modal.is-active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.token-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+}
+
+.token-modal-content {
+    position: relative;
+    background: #1a1a1a;
+    border-radius: 24px;
+    padding: 40px;
+    min-width: 320px;
+    max-width: 420px;
+    text-align: center;
+    transform: scale(0.9) translateY(20px);
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.token-modal.is-active .token-modal-content {
+    transform: scale(1) translateY(0);
+}
+
+.token-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.token-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.token-modal-icon {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.token-modal-emotion {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.token-modal-date {
+    font-size: 18px;
+    color: var(--muted);
+    margin-bottom: 24px;
+}
+
+.token-modal-note-label {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.token-modal-note {
+    font-family: 'Nanum Pen Script', cursive;
+    font-size: 22px;
+    color: #f0f0f0;
+    min-height: 60px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    margin-bottom: 24px;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.token-modal-note:empty::before {
+    content: '메모 없음';
+    color: var(--muted);
+    font-style: italic;
+}
+
+.token-modal-delete {
+    padding: 12px 32px;
+    border: none;
+    background: rgba(231, 76, 60, 0.2);
+    color: #E74C3C;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.token-modal-delete:hover {
+    background: rgba(231, 76, 60, 0.4);
+}
+
+/* 감정별 모달 아이콘 */
+.token-modal-icon[data-emotion="happiness"] { background-image: url('image/Happiness.png'); }
+.token-modal-icon[data-emotion="anticipation"] { background-image: url('image/Anticipation.png'); }
+.token-modal-icon[data-emotion="love"] { background-image: url('image/Love.png'); }
+.token-modal-icon[data-emotion="achieve"] { background-image: url('image/Achieve.png'); }
+.token-modal-icon[data-emotion="anxiety"] { background-image: url('image/Anxiety.png'); }
+.token-modal-icon[data-emotion="sadness"] { background-image: url('image/Sadness.png'); }
+.token-modal-icon[data-emotion="angry"] { background-image: url('image/Angry.png'); }
+.token-modal-icon[data-emotion="exhaustion"] { background-image: url('image/Exhaustion.png'); }
+
+/* 감정별 모달 텍스트 색상 */
+.token-modal-content[data-emotion="happiness"] .token-modal-emotion { color: #CFD500; }
+.token-modal-content[data-emotion="anticipation"] .token-modal-emotion { color: #00B4A0; }
+.token-modal-content[data-emotion="love"] .token-modal-emotion { color: #FF6B9D; }
+.token-modal-content[data-emotion="achieve"] .token-modal-emotion { color: #4A90D9; }
+.token-modal-content[data-emotion="anxiety"] .token-modal-emotion { color: #9B6DD7; }
+.token-modal-content[data-emotion="sadness"] .token-modal-emotion { color: #5B9BD5; }
+.token-modal-content[data-emotion="angry"] .token-modal-emotion { color: #E74C3C; }
+.token-modal-content[data-emotion="exhaustion"] .token-modal-emotion { color: #F39C12; }
+
+@keyframes drop-path {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+.shapes-container {
+    position: absolute;
+    inset: -2%;
+    overflow: hidden;
+}
+
+.path-line {
+    position: absolute;
+    inset: 0;
+    opacity: 0.65;
+}
+
+.hero-shape {
+    position: absolute;
+    width: calc(var(--size, 170px) * 0.7);
+    height: auto;
+    filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.28));
+    animation: float 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.on-path {
+    filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.28));
+    animation: float 9s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+.pick-title {
+    font-size: clamp(44px, 7vw, 96px);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 6%;
+}
+
+.wavy-line {
+    width: 180px;
+    height: 12px;
+    margin: 0 auto 16px auto;
+    background: repeating-linear-gradient(90deg, transparent 0 8px, var(--ink) 8px 16px);
+}
+
+.emotions-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(18px, 2vw, 32px);
+    width: 80%;
+    max-width: 1100px;
+    margin: 80px auto 0 auto;
+}
+
+.emotion-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.emotion-card:hover {
+    transform: translateY(-6px);
+}
+
+.emotion-shape {
+    width: clamp(120px, 15vw, 300px);
+    height: clamp(120px, 12vw, 160px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: var(--normal);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.35));
+    transition: transform 0.25s ease, background-image 0.2s ease;
+}
+
+.emotion-label {
+    font-size: 14px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: font-weight 0.2s ease, color 0.2s ease;
+}
+
+.emotion-card:hover .emotion-shape,
+.emotion-card:focus-within .emotion-shape {
+    transform: translateY(-6px);
+    background-image: var(--hover);
+}
+
+.emotion-card:hover .emotion-label,
+.emotion-card:focus-within .emotion-label {
+    font-weight: 700;
+    color: var(--ink);
+}
+
+.here-pointer {
+    position: absolute;
+    left: 6%;
+    bottom: 18%;
+}
+
+.here-text {
+    font-family: 'Reenie Beanie', cursive;
+    font-size: 26px;
+    color: var(--ink);
+    position: relative;
+}
+
+.here-text::after {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 20px;
+    width: 2px;
+    height: 200px;
+    border-left: 1px solid rgba(247, 247, 247, 0.8);
+    border-radius: 50%;
+    transform: rotate(-6deg);
+}
+
+.scroll-hint {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.scroll-hint-text {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.scroll-hint-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.scroll-arrow {
+    width: 46px;
+    height: 46px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    cursor: pointer;
+    pointer-events: all;
+    color: var(--ink);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.scroll-arrow:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.scroll-arrow:active {
+    transform: translateY(0px) scale(0.96);
+}
+
+@media (max-width: 1200px) {
+    .emotions-grid {
+        grid-template-columns: repeat(2, 1fr);
+        width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+    .scroll-container {
+        width: 100vw;
+    }
+
+    .emotions-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .here-pointer {
+        bottom: 12%;
+    }
+}
+
+:root {
+    --bg: #0f0f0f;
+    --ink: #f7f7f7;
+    --muted: #c7c7c7;
+}
+
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Thin.woff2') format('woff2');
+    font-weight: 100;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-ExtraLight.woff2') format('woff2');
+    font-weight: 200;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-ExtraBold.woff2') format('woff2');
+    font-weight: 800;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-display: swap;
+}
