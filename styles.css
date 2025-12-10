@@ -422,6 +422,40 @@ body {
     position: relative;
 }
 
+/* Drop pagination */
+.drop-pager {
+    display: none;
+}
+
+.drop-page-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    cursor: pointer;
+    font-size: 15px;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+}
+
+.drop-page-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.drop-page-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.drop-page-indicator {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 13px;
+    letter-spacing: 0.5px;
+}
+
 /* BE THE BIZZ 로고 */
 .bethe-logo {
     position: absolute;

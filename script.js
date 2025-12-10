@@ -223,6 +223,49 @@ document.addEventListener('DOMContentLoaded', () => {
     const dropOverlay = document.getElementById('dropOverlay');
     const dropPathSvg = document.querySelector('.drop-path path');
     const homeBtn = document.getElementById('homeBtn');
+    const DROP_ANIMATION_DURATION = 2000; // ms, slower fall speed for drop section
+    const DROP_VIEWBOX = { width: 1200, height: 700 };
+    const DROP_MARGIN_RATIO = 0.04; // keep tokens comfortably inside the viewBox
+    const ROW_COUNT = 2; // 두 줄 배치
+    const SECOND_ROW_SPACING_FACTOR = 0.9; // 두번째 줄도 여유 있게
+    const ROW_OFFSET = 70; // 줄 간 수직 오프셋(px)
+    const ROW_ALONG_SHIFT = 0.7; // 두번째 줄을 경로 방향으로 더 앞당겨 겹침 방지
+
+    const clamp = (val, min, max) => Math.min(max, Math.max(min, val));
+
+    // 계산 가능한 영역(보이는 구간)만 사용하도록 path 구간 추출
+    function computeVisiblePathSegment() {
+        if (!dropPathSvg) return { start: 0, end: 0 };
+
+        const total = dropPathSvg.getTotalLength();
+        const steps = 400;
+        const marginX = DROP_VIEWBOX.width * DROP_MARGIN_RATIO;
+        const marginY = DROP_VIEWBOX.height * DROP_MARGIN_RATIO;
+        let first = null;
+        let last = null;
+
+        for (let i = 0; i <= steps; i++) {
+            const len = (total * i) / steps;
+            const pt = dropPathSvg.getPointAtLength(len);
+            const inside =
+                pt.x >= marginX &&
+                pt.x <= DROP_VIEWBOX.width - marginX &&
+                pt.y >= marginY &&
+                pt.y <= DROP_VIEWBOX.height - marginY;
+
+            if (inside) {
+                if (first === null) first = len;
+                last = len;
+            }
+        }
+
+        return {
+            start: first ?? 0,
+            end: last ?? total
+        };
+    }
+
+    const visiblePathSegment = computeVisiblePathSegment();
     
     let currentEmotion = '';
     let activeToken = null;
@@ -392,24 +435,83 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 저장된 토큰 렌더링 (SVG viewBox 기준 상대 좌표 사용)
     function renderSavedTokens() {
-        if (!dropStack || !dropPathSvg || savedEmotionsData.length === 0) return;
+        if (!dropStack || !dropPathSvg) return;
         
         // 기존 토큰 제거
         dropStack.innerHTML = '';
+
+        if (savedEmotionsData.length === 0) {
+            return;
+        }
         
         const pathLen = dropPathSvg.getTotalLength();
-        // SVG viewBox 기준 (1200 x 700)
-        const viewBoxWidth = 1200;
-        const viewBoxHeight = 700;
-        
+        const { start: visibleStart, end: visibleEnd } = visiblePathSegment;
+        const usableLen = Math.max(visibleEnd - visibleStart, 1);
+        const viewBoxWidth = DROP_VIEWBOX.width;
+        const viewBoxHeight = DROP_VIEWBOX.height;
+
+        const BASE_SPACING = 240;          // 기본 간격 (더 넓게)
+        const BONUS_START_IDX = 7;         // 8번째부터 간격 늘리기
+        const SPREAD_SCALE = 0.5;          // 8번 이후 간격 가중치 확대
+        const MIN_PATH_RATIO = 0.04;       // 시작 여유
+        const WIGGLE_BASE = 10;            // 끝단 겹침 방지를 위한 수직 오프셋
+        const WIGGLE_STEP = 5;             // 토큰이 늘어날 때마다 오프셋 증가
+        const MARGIN_PX_X = DROP_VIEWBOX.width * DROP_MARGIN_RATIO;
+        const MARGIN_PX_Y = DROP_VIEWBOX.height * DROP_MARGIN_RATIO;
+
+        const minLen = visibleStart + usableLen * MIN_PATH_RATIO;
+        const totalCount = savedEmotionsData.length;
+        const tailStart = Math.max(0, totalCount - 4); // 마지막 4개는 추가 여유
+
+        // 줄별 인덱스 카운터
+        const rowCounters = Array.from({ length: ROW_COUNT }, () => 0);
+
         savedEmotionsData.forEach((emotion, idx) => {
-            const spacing = 220;
-            const dist = Math.min(pathLen, spacing * idx);
-            const endPt = dropPathSvg.getPointAtLength(pathLen - dist);
+            const row = idx % ROW_COUNT;
+            const rowPos = rowCounters[row]++;
+
+            const rowSpacingFactor = row === 1 ? SECOND_ROW_SPACING_FACTOR : 1;
+            const spreadFactor = 1 + Math.max(0, rowPos - BONUS_START_IDX) * SPREAD_SCALE;
+            const baseSpacing = BASE_SPACING * rowSpacingFactor;
+            const alongShift = row === 1 ? BASE_SPACING * ROW_ALONG_SHIFT : 0;
+            const baseDist = baseSpacing * rowPos * spreadFactor + alongShift;
+            const tailBoost = idx >= tailStart ? (idx - tailStart + 1) * 120 : 0;
+            const dist = Math.min(usableLen * 0.9, baseDist + tailBoost);
+
+            const pointLen = clamp(visibleEnd - dist, minLen, visibleEnd);
+            const endPt = dropPathSvg.getPointAtLength(pointLen);
+
+            // 줄 오프셋 + 끝부분 위아래 교차 오프셋
+            let offsetX = endPt.x;
+            let offsetY = endPt.y;
+            const delta = 2;
+            const p1 = dropPathSvg.getPointAtLength(Math.max(pointLen - delta, visibleStart));
+            const p2 = dropPathSvg.getPointAtLength(Math.min(pointLen + delta, visibleEnd));
+            const dx = p2.x - p1.x;
+            const dy = p2.y - p1.y;
+            const mag = Math.hypot(dx, dy) || 1;
+            const nx = -dy / mag;
+            const ny = dx / mag;
+
+            // 줄 오프셋
+            const baseRowOffset = row * ROW_OFFSET;
+            offsetX += nx * baseRowOffset;
+            offsetY += ny * baseRowOffset;
+
+            // tail wiggle (8번 이후)
+            if (rowPos >= BONUS_START_IDX) {
+                const wiggle = WIGGLE_BASE + (rowPos - BONUS_START_IDX) * WIGGLE_STEP;
+                const dir = rowPos % 2 === 0 ? 1 : -1;
+                offsetX += nx * wiggle * dir;
+                offsetY += ny * wiggle * dir;
+            }
+
+            offsetX = clamp(offsetX, MARGIN_PX_X, viewBoxWidth - MARGIN_PX_X);
+            offsetY = clamp(offsetY, MARGIN_PX_Y, viewBoxHeight - MARGIN_PX_Y);
             
             // viewBox 기준 퍼센트로 계산
-            const percentX = (endPt.x / viewBoxWidth) * 100;
-            const percentY = (endPt.y / viewBoxHeight) * 100;
+            const percentX = clamp((offsetX / viewBoxWidth) * 100, 3, 97);
+            const percentY = clamp((offsetY / viewBoxHeight) * 100, 3, 97);
             
             const item = document.createElement('div');
             item.className = 'token stacked';
@@ -666,18 +768,19 @@ document.addEventListener('DOMContentLoaded', () => {
             createConfetti();
             
             const overlayRect = dropOverlay.getBoundingClientRect();
-            const pathLen = dropPathSvg.getTotalLength();
+            const { start: visibleStart, end: visibleEnd } = visiblePathSegment;
+            const pathRange = Math.max(visibleEnd - visibleStart, 1);
 
-            const startPoint = dropPathSvg.getPointAtLength(0);
+            const startPoint = dropPathSvg.getPointAtLength(visibleStart);
             activeToken.style.left = `${startPoint.x + overlayRect.left}px`;
             activeToken.style.top = `${startPoint.y + overlayRect.top}px`;
 
             const startTime = performance.now();
-            const duration = 1000;
+            const duration = DROP_ANIMATION_DURATION;
 
             const animate = (now) => {
                 const t = Math.min((now - startTime) / duration, 1);
-                const point = dropPathSvg.getPointAtLength(pathLen * t);
+                const point = dropPathSvg.getPointAtLength(visibleStart + pathRange * t);
                 activeToken.style.left = `${point.x + overlayRect.left}px`;
                 activeToken.style.top = `${point.y + overlayRect.top}px`;
                 if (t < 1) {
