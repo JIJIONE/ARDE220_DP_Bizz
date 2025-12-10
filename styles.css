@@ -224,14 +224,37 @@ body {
 }
 
 /* 감정별 배경 이미지 */
-.detail-card[data-emotion="happiness"] { background-image: url('image/Happiness_Union.png'); }
-.detail-card[data-emotion="anticipation"] { background-image: url('image/Anticipation_Union.png'); }
-.detail-card[data-emotion="love"] { background-image: url('image/Love_Union.png'); }
-.detail-card[data-emotion="achieve"] { background-image: url('image/Achieve_Union.png'); }
-.detail-card[data-emotion="anxiety"] { background-image: url('image/Anxiety_Union.png'); }
-.detail-card[data-emotion="sadness"] { background-image: url('image/Sadness_Union.png'); }
-.detail-card[data-emotion="angry"] { background-image: url('image/Angry_Union.png'); }
-.detail-card[data-emotion="exhaustion"] { background-image: url('image/Exhaustion_Union.png'); }
+.detail-card[data-emotion="happiness"] {
+    background-image: url('image/Happiness_Union.png');
+}
+
+.detail-card[data-emotion="anticipation"] {
+    background-image: url('image/Anticipation_Union.png');
+}
+
+.detail-card[data-emotion="love"] {
+    background-image: url('image/Love_Union.png');
+}
+
+.detail-card[data-emotion="achieve"] {
+    background-image: url('image/Achieve_Union.png');
+}
+
+.detail-card[data-emotion="anxiety"] {
+    background-image: url('image/Anxiety_Union.png');
+}
+
+.detail-card[data-emotion="sadness"] {
+    background-image: url('image/Sadness_Union.png');
+}
+
+.detail-card[data-emotion="angry"] {
+    background-image: url('image/Angry_Union.png');
+}
+
+.detail-card[data-emotion="exhaustion"] {
+    background-image: url('image/Exhaustion_Union.png');
+}
 
 .detail-screen.is-active .detail-card {
     transform: translateX(0);
@@ -311,13 +334,11 @@ body {
     height: 100%;
     padding: 0 14px;
     border: none;
-    background: 
-        repeating-linear-gradient(
-            transparent 0px,
+    background:
+        repeating-linear-gradient(transparent 0px,
             transparent 39px,
             rgba(0, 0, 0, 0.25) 39px,
-            rgba(0, 0, 0, 0.25) 40px
-        );
+            rgba(0, 0, 0, 0.25) 40px);
     background-attachment: local;
     color: #3d3d3d;
     font-family: 'Nanum Pen Script', cursive;
@@ -334,37 +355,62 @@ body {
 }
 
 /* 감정별 날짜 색상 */
-.detail-card[data-emotion="happiness"] .detail-date { color: #f87bb5; }
-.detail-card[data-emotion="anticipation"] .detail-date { color: #00B4A0; }
+.detail-card[data-emotion="happiness"] .detail-date {
+    color: #f87bb5;
+}
+
+.detail-card[data-emotion="anticipation"] .detail-date {
+    color: #00B4A0;
+}
 
 /* Anticipation 메모 입력란/날짜 하단 배치 */
 .detail-card[data-emotion="anticipation"] .detail-notes {
     margin-top: 350px;
     height: 320px;
 }
+
 .detail-card[data-emotion="anticipation"] .detail-date {
     margin-top: 20px;
 }
 
-.detail-card[data-emotion="love"] .detail-date { color: #FF6B9D; }
-.detail-card[data-emotion="achieve"] .detail-date { color: #4A90D9; }
+.detail-card[data-emotion="love"] .detail-date {
+    color: #FF6B9D;
+}
+
+.detail-card[data-emotion="achieve"] .detail-date {
+    color: #4A90D9;
+}
 
 /* Achieve 메모 입력란/날짜 위치 조정 */
 .detail-card[data-emotion="achieve"] .detail-notes {
     margin-left: 20%;
 }
+
 .detail-card[data-emotion="achieve"] .detail-date {
     margin-left: 360px;
 }
 
-.detail-card[data-emotion="anxiety"] .detail-date { color: #9B6DD7; }
-.detail-card[data-emotion="sadness"] .detail-date { color: #5B9BD5; }
-.detail-card[data-emotion="angry"] .detail-date { color: #E74C3C; }
-.detail-card[data-emotion="exhaustion"] .detail-date { color: #ce7f00; }
+.detail-card[data-emotion="anxiety"] .detail-date {
+    color: #9B6DD7;
+}
+
+.detail-card[data-emotion="sadness"] .detail-date {
+    color: #5B9BD5;
+}
+
+.detail-card[data-emotion="angry"] .detail-date {
+    color: #E74C3C;
+}
+
+.detail-card[data-emotion="exhaustion"] .detail-date {
+    color: #ce7f00;
+}
+
 .detail-card[data-emotion="exhaustion"] .detail-notes {
     margin-left: 36%;
     margin-top: 270px;
 }
+
 .detail-card[data-emotion="exhaustion"] .detail-date {
     position: relative;
     top: 2px;
@@ -420,40 +466,6 @@ body {
     align-items: center;
     justify-content: center;
     position: relative;
-}
-
-/* Drop pagination */
-.drop-pager {
-    display: none;
-}
-
-.drop-page-btn {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.28);
-    background: rgba(255, 255, 255, 0.08);
-    color: #fff;
-    cursor: pointer;
-    font-size: 15px;
-    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
-}
-
-.drop-page-btn:hover:not(:disabled) {
-    transform: translateY(-1px);
-    background: rgba(255, 255, 255, 0.16);
-    border-color: rgba(255, 255, 255, 0.4);
-}
-
-.drop-page-btn:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-}
-
-.drop-page-indicator {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 13px;
-    letter-spacing: 0.5px;
 }
 
 /* BE THE BIZZ 로고 */
@@ -532,7 +544,8 @@ body {
     gap: 6px;
     position: absolute;
     z-index: 10;
-    pointer-events: none; /* 기본: 클릭 통과 */
+    pointer-events: none;
+    /* 기본: 클릭 통과 */
 }
 
 /* 토큰 드래그 중일 때만 PUT HERE 활성화 */
@@ -608,14 +621,51 @@ body {
 }
 
 /* 감정별 토큰 스타일 */
-.token[data-emotion="happiness"] { background-image: url('image/Happiness.png'); color: rgba(18, 18, 18, 0.2); }
-.token[data-emotion="anticipation"] { background-image: url('image/Anticipation.png'); color: rgba(18, 18, 18, 0.2); justify-content: flex-end; padding-bottom: 15px; }
-.token[data-emotion="love"] { background-image: url('image/Love.png'); color: rgba(18, 18, 18, 0.2); width: 160px; height: 160px; }
-.token[data-emotion="achieve"] { background-image: url('image/Achieve.png'); color: rgba(18, 18, 18, 0.2); }
-.token[data-emotion="anxiety"] { background-image: url('image/Anxiety.png'); color: rgba(18, 18, 18, 0.2); }
-.token[data-emotion="sadness"] { background-image: url('image/Sadness.png'); color: rgba(18, 18, 18, 0.2); }
-.token[data-emotion="angry"] { background-image: url('image/Angry.png'); color: rgba(18, 18, 18, 0.2); width: 155px; height: 155px; }
-.token[data-emotion="exhaustion"] { background-image: url('image/Exhaustion.png'); color: rgba(18, 18, 18, 0.2); }
+.token[data-emotion="happiness"] {
+    background-image: url('image/Happiness.png');
+    color: rgba(18, 18, 18, 0.2);
+}
+
+.token[data-emotion="anticipation"] {
+    background-image: url('image/Anticipation.png');
+    color: rgba(18, 18, 18, 0.2);
+    justify-content: flex-end;
+    padding-bottom: 15px;
+}
+
+.token[data-emotion="love"] {
+    background-image: url('image/Love.png');
+    color: rgba(18, 18, 18, 0.2);
+    width: 160px;
+    height: 160px;
+}
+
+.token[data-emotion="achieve"] {
+    background-image: url('image/Achieve.png');
+    color: rgba(18, 18, 18, 0.2);
+}
+
+.token[data-emotion="anxiety"] {
+    background-image: url('image/Anxiety.png');
+    color: rgba(18, 18, 18, 0.2);
+}
+
+.token[data-emotion="sadness"] {
+    background-image: url('image/Sadness.png');
+    color: rgba(18, 18, 18, 0.2);
+}
+
+.token[data-emotion="angry"] {
+    background-image: url('image/Angry.png');
+    color: rgba(18, 18, 18, 0.2);
+    width: 155px;
+    height: 155px;
+}
+
+.token[data-emotion="exhaustion"] {
+    background-image: url('image/Exhaustion.png');
+    color: rgba(18, 18, 18, 0.2);
+}
 
 /* 클릭 가능한 토큰 */
 .token.stacked {
@@ -789,14 +839,37 @@ body {
 }
 
 /* 감정별 날짜 색상 */
-.token-modal-content[data-emotion="happiness"] .token-modal-date { color: #CFD500; }
-.token-modal-content[data-emotion="anticipation"] .token-modal-date { color: #00B4A0; }
-.token-modal-content[data-emotion="love"] .token-modal-date { color: #FF6B9D; }
-.token-modal-content[data-emotion="achieve"] .token-modal-date { color: #4A90D9; }
-.token-modal-content[data-emotion="anxiety"] .token-modal-date { color: #9B6DD7; }
-.token-modal-content[data-emotion="sadness"] .token-modal-date { color: #5B9BD5; }
-.token-modal-content[data-emotion="angry"] .token-modal-date { color: #E74C3C; }
-.token-modal-content[data-emotion="exhaustion"] .token-modal-date { color: #F39C12; }
+.token-modal-content[data-emotion="happiness"] .token-modal-date {
+    color: #CFD500;
+}
+
+.token-modal-content[data-emotion="anticipation"] .token-modal-date {
+    color: #00B4A0;
+}
+
+.token-modal-content[data-emotion="love"] .token-modal-date {
+    color: #FF6B9D;
+}
+
+.token-modal-content[data-emotion="achieve"] .token-modal-date {
+    color: #4A90D9;
+}
+
+.token-modal-content[data-emotion="anxiety"] .token-modal-date {
+    color: #9B6DD7;
+}
+
+.token-modal-content[data-emotion="sadness"] .token-modal-date {
+    color: #5B9BD5;
+}
+
+.token-modal-content[data-emotion="angry"] .token-modal-date {
+    color: #E74C3C;
+}
+
+.token-modal-content[data-emotion="exhaustion"] .token-modal-date {
+    color: #F39C12;
+}
 
 @keyframes drop-path {
     from {
@@ -836,26 +909,26 @@ body {
     width: calc(var(--size, 170px) * 0.7);
     height: auto;
     pointer-events: none;
-    
+
     /* Hero cursor gravity 변수 */
     --gx: 0px;
     --gy: 0px;
     --gs: 1;
     --rotate: 0deg;
-    
+
     /* 그림자 */
     filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.28));
-    
+
     /* transform 개별 속성 사용 */
     transform-origin: center center;
     translate: 0 0;
     rotate: var(--rotate);
     scale: var(--gs);
     transform: translate3d(var(--gx), var(--gy), 0);
-    
+
     /* 부드러운 전환 효과 */
     transition: transform 0.3s ease-out, scale 0.2s ease-out;
-    
+
     /* float 애니메이션 */
     animation: float 8s ease-in-out infinite;
 }
@@ -866,10 +939,12 @@ body {
 }
 
 @keyframes float {
+
     0%,
     100% {
         translate: 0 0;
     }
+
     50% {
         translate: 0 -12px;
     }
@@ -880,6 +955,7 @@ body {
     0% {
         rotate: var(--tilt-base);
     }
+
     100% {
         rotate: calc(var(--tilt-base) * -1);
     }
@@ -1144,6 +1220,7 @@ body {
     0% {
         transform: translateY(-20px) rotate(0deg);
     }
+
     100% {
         transform: translateY(100vh) rotate(720deg);
     }
