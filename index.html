@@ -15,7 +15,7 @@
         href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap"
         rel="stylesheet">
     
-    <!-- ?? 감정 ?��?지 ?�리로드 - ?�레??방�? -->
+    <!-- 🚀 감정 이미지 프리로드 - 딜레이 방지 -->
     <link rel="preload" as="image" href="image/Happiness.png">
     <link rel="preload" as="image" href="image/Anticipation.png">
     <link rel="preload" as="image" href="image/Love.png">
@@ -27,18 +27,18 @@
 </head>
 
 <body>
-    <!-- ?�크�??�내 -->
+    <!-- 스크롤 안내 -->
     <div class="scroll-hint">
         <div class="scroll-hint-buttons">
-            <div class="scroll-arrow left" id="scrollLeft">??/div>
-            <div class="scroll-arrow right" id="scrollRight">??/div>
+            <div class="scroll-arrow left" id="scrollLeft">←</div>
+            <div class="scroll-arrow right" id="scrollRight">→</div>
         </div>
     </div>
 
     <div class="scroll-container" id="scrollContainer">
         <!-- Section 1: How are U today? -->
         <section class="section section-1">
-            <!-- ??배경 중앙 ?��?지 -->
+            <!-- 홈 배경 중앙 이미지 -->
             <img class="home-path-bg" src="image/Home_path.png" alt="" aria-hidden="true">
             
             <div class="content-wrapper">
@@ -47,7 +47,7 @@
                 </h1>
 
                 <div class="shapes-container">
-                    <!-- hero shapes pulled from assets (모두 ?�일 ?�기) -->
+                    <!-- hero shapes pulled from assets (모두 동일 크기) -->
                     <img class="hero-shape" src="image/Exhaustion.png" alt="orange arc"
                         style="--size:205px; top:-2%; left:1%;">
                     <img class="hero-shape" src="image/Exhaustion.png" alt="orange arc"
@@ -160,7 +160,7 @@
                             style="--normal:url('image/Sadness.png'); --hover:url('image/Sadness_hover.png');"
                             aria-hidden="true"></div>
                         <p class="emotion-label">SADNESS</p>
-                    </div>
+                    </div -->
 
                     <div class="emotion-card">
                         <div class="emotion-shape"
@@ -184,8 +184,8 @@
     <!-- 공통 감정 Detail Screen -->
     <div class="detail-screen" id="emotionScreen" data-emotion="" aria-hidden="true">
         <div class="detail-content">
-            <button class="detail-nav prev" id="detailPrev" aria-label="?�전"></button>
-            <button class="detail-nav next" id="detailNext" aria-label="?�음"></button>
+            <button class="detail-nav prev" id="detailPrev" aria-label="이전"></button>
+            <button class="detail-nav next" id="detailNext" aria-label="다음"></button>
             <div class="detail-card" id="detailCard">
                 <div class="detail-header"></div>
                 <div class="detail-notes">
@@ -199,11 +199,11 @@
     <!-- Drop target section -->
     <section class="section drop-section" id="dropSection">
         <img class="bethe-logo" src="image/Bethe.png" alt="BE THE BIZZ" aria-hidden="true">
-        <button class="home-btn" id="homeBtn" aria-label="Pick ?�션?�로 ?�동"></button>
+        <button class="home-btn" id="homeBtn" aria-label="Pick 섹션으로 이동"></button>
         <div class="drop-content">
             <svg class="drop-overlay" id="dropOverlay" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true"></svg>
             <svg class="drop-path" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true">
-                <path d="M -30 150 C 140 140, 320 190, 520 210 S 870 260, 1000 300 S 1130 420, 1200 620" />
+                <path d="M -200 40 C 120 120, 420 60, 720 150 S 1200 260, 1500 220 S 1340 440, 1100 420 S 760 480, 520 520 S 180 560, -100 760" />
             </svg>
             <div class="put-here" id="dropZone">
                 <div class="put-here-label">PUT</div>
@@ -214,28 +214,28 @@
         </div>
     </section>
 
-    <!-- ?�큰 ?�세보기 모달 -->
+    <!-- 토큰 상세보기 모달 -->
     <div class="token-modal" id="tokenModal" aria-hidden="true">
         <div class="token-modal-backdrop" id="tokenModalBackdrop"></div>
         <div class="token-modal-content" id="tokenModalContent">
-            <!-- ?�더: ?�짜 + ?�이콘들 -->
+            <!-- 헤더: 날짜 + 아이콘들 -->
             <div class="token-modal-header">
                 <div class="token-modal-date" id="tokenModalDate"></div>
                 <div class="token-modal-actions">
-                    <button class="token-modal-btn" id="tokenModalEdit" aria-label="?�정">
-                        <img src="image/Pen_Icon.png" alt="?�정">
+                    <button class="token-modal-btn" id="tokenModalEdit" aria-label="수정">
+                        <img src="image/Pen_Icon.png" alt="수정">
                     </button>
-                    <button class="token-modal-btn" id="tokenModalDelete" aria-label="??��">
-                        <img src="image/Trash_icon.png" alt="??��">
+                    <button class="token-modal-btn" id="tokenModalDelete" aria-label="삭제">
+                        <img src="image/Trash_icon.png" alt="삭제">
                     </button>
-                    <button class="token-modal-btn" id="tokenModalClose" aria-label="?�기">
-                        <img src="image/delete_icon.png" alt="?�기">
+                    <button class="token-modal-btn" id="tokenModalClose" aria-label="닫기">
+                        <img src="image/delete_icon.png" alt="닫기">
                     </button>
                 </div>
             </div>
-            <!-- 물결??-->
+            <!-- 물결선 -->
             <div class="token-modal-wave"></div>
-            <!-- 메모 ?�용 -->
+            <!-- 메모 내용 -->
             <div class="token-modal-note" id="tokenModalNote"></div>
         </div>
     </div>
